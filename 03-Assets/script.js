@@ -3,7 +3,6 @@
 const toboggan = (arr, rightMove, downMove) => {
   // Start at upper left (arr[0][0])
   let stepRight = 0;
-  let stepDown = 0;
 
   // Keep track of the number of trees you land on
   let treeCount = 0;
@@ -12,23 +11,18 @@ const toboggan = (arr, rightMove, downMove) => {
   const width = arr[0].length;
 
   // Go down the slope
-  for (let i = 0; i < arr.length; i++) {
-    // Slope direction of toboggan
-    stepRight += rightMove;
-    stepDown += downMove;
+  for (let stepDown = 0; stepDown < arr.length; stepDown += downMove) {
 
     // Pattern repeats left to right, so go back to beginning of string
     let stepRightAdjusted = stepRight % width;
-
-    // Boundary check
-    if (stepDown >= (arr.length)) {
-      break;
-    }
 
     // Tree encounter
     if (arr[stepDown][stepRightAdjusted] === '#') {
       treeCount++;
     }
+
+    // Slope direction of toboggan
+    stepRight += rightMove;
   }
 
   return treeCount;
