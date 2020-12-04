@@ -59,14 +59,15 @@ function checkPassport2(passports) {
             // hgt (Height) - a number followed by either cm or in:
             //  If cm, the number must be at least 150 and at most 193.
             //  If in, the number must be at least 59 and at most 76.
-            if (passports[i].hgt.indexOf("cm") > 0) {
+            if (passports[i].hgt.includes("cm")) {
               isValid = check_range(parseInt(passports[i].hgt), 150, 193);
             }
-            else if (passports[i].hgt.indexOf("in") > 0) {
+            else if (passports[i].hgt.includes("in")) {
               isValid = check_range(parseInt(passports[i].hgt), 59, 76);
             }
             else {
               isValid = false;
+              console.log(passports[i])
             }
             break;
           case "hcl":
