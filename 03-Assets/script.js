@@ -10,7 +10,7 @@ const toboggan = (arr, rightMove, downMove) => {
   // Each row of the repeated pattern has the same width
   const width = arr[0].length;
 
-  // Go down the slope
+  // Go down the slope, starting at 0,0
   for (let stepDown = 0; stepDown < arr.length; stepDown += downMove) {
 
     // Pattern repeats left to right, so go back to beginning of string
