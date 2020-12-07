@@ -1,67 +1,49 @@
 // SCRIPTS
-// Part 1 - 
-// function checkLuggage(bagArray) {
-//   let runningSum = 0;
-//   for (let i = 0; i < bagArray.length; i++) {
-//     runningSum += examineContents(bagArray[i], "shiny_gold");
-//   }
-
-//   return runningSum;
-// }
-let bagsChecked = [];
+// Part 1 - Check what bags will eventually contain the target bag
+let bagsChecked = []; // Make sure no bags get added twice
 function checkLuggage(bagArray, target) {
   let runningSum = 0;
-  let moreToCheck = []
+  let moreToCheck = []; // Bags that will have to be checked to see if they are inside of other bags
+  // Go through array of bags
   for (let i = 0; i < bagArray.length; i++) {
+    // Go through every bag that is contained in the bag being checked
     for (let j = 0; j < bagArray[i].contains.length; j++) {
+      // If the bag being checked contains the target and hasn't already been checked
       if ((bagArray[i].contains[j].bag === target) && (!bagsChecked.includes(bagArray[i].name))) {
-        //console.log(bagsChecked)
-        bagsChecked.push(bagArray[i].name);
-        moreToCheck.push(bagArray[i]);
+        bagsChecked.push(bagArray[i].name); // Flag this bag as checked
+        moreToCheck.push(bagArray[i]); // Make this a potential target to search other bags for
         runningSum++;
       }
     }
   }
-  //console.log("===");
+
+  // Check to see if other bags containing target are inside other bags
   for (let i = 0; i < moreToCheck.length; i++) {
-    //console.log(moreToCheck[i].name);
-
     runningSum += checkLuggage(bagArray, moreToCheck[i].name)
-
   }
+  return runningSum;
+}
 
-
+// Part 2 - Count how many bags the target has inside of it
+function countLuggage(bagArray, target) {
+  let runningSum = 0;
+  // Go through array of bags
+  for (let i = 0; i < bagArray.length; i++) {
+    // If we found the target bag
+    if (bagArray[i].name === target) {
+      // Check for how many bags the target contains
+      for (let j = 0; j < bagArray[i].contains.length; j++) {
+        // Add the number of bags plus however many bags those bags also contain
+        runningSum += bagArray[i].contains[j].q + (bagArray[i].contains[j].q * countLuggage(bagArray, bagArray[i].contains[j].bag));
+      }
+      break; // Break out of for loop
+    }
+  }
   return runningSum;
 }
 
 
-// Part 2 - 
-function checkLuggage2(questionArray) {
-
-}
-
-
 // Helper Functions
-function examineContents(bag, target) {
-  // console.log(bag.contains)
-  // console.log(" , " + target)
-  retVal = 0;
-  if (bag.contains.length == 0) {
-    return 0;
-  }
-  else {
-    for (let i = 0; i < bag.contains.length; i++) {
-      if (bag.contains[i].bag === target) {
-        // console.log(i + " " + bag.contains[i].bag + " === " + target);
-        return 1;
-      }
-      else {
-        eval("retVal = examineContents(" + bag.contains[i].bag + ", target);");
-      }
-    }
-  }
-  return retVal;
-}
 
 // TEMPLATE
 // Get output areas
@@ -73,8 +55,8 @@ const part2Challenge = document.getElementById("part2Challenge");
 //Test to confirm output
 part1Test.textContent = checkLuggage(testArray, "shiny_gold");
 bagsChecked = [];
-// part2Test.textContent = checkQuestionairre2(testArray);
+part2Test.textContent = countLuggage(testArray, "shiny_gold");
 
 // // Run challenge data and get output
 part1Challenge.textContent = checkLuggage(challengeArray, "shiny_gold");
-// part2Challenge.textContent = checkQuestionairre2(challengeArray);
+part2Challenge.textContent = countLuggage(challengeArray, "shiny_gold");
