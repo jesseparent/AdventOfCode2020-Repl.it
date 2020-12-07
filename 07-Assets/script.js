@@ -1,13 +1,39 @@
 // SCRIPTS
 // Part 1 - 
-function checkLuggage(bagArray) {
+// function checkLuggage(bagArray) {
+//   let runningSum = 0;
+//   for (let i = 0; i < bagArray.length; i++) {
+//     runningSum += examineContents(bagArray[i], "shiny_gold");
+//   }
+
+//   return runningSum;
+// }
+let bagsChecked = [];
+function checkLuggage(bagArray, target) {
   let runningSum = 0;
+  let moreToCheck = []
   for (let i = 0; i < bagArray.length; i++) {
-    runningSum += examineContents(bagArray[i], "shiny_gold");
+    for (let j = 0; j < bagArray[i].contains.length; j++) {
+      if ((bagArray[i].contains[j].bag === target) && (!bagsChecked.includes(bagArray[i].name))) {
+        //console.log(bagsChecked)
+        bagsChecked.push(bagArray[i].name);
+        moreToCheck.push(bagArray[i]);
+        runningSum++;
+      }
+    }
   }
+  //console.log("===");
+  for (let i = 0; i < moreToCheck.length; i++) {
+    //console.log(moreToCheck[i].name);
+
+    runningSum += checkLuggage(bagArray, moreToCheck[i].name)
+
+  }
+
 
   return runningSum;
 }
+
 
 // Part 2 - 
 function checkLuggage2(questionArray) {
@@ -44,10 +70,11 @@ const part2Test = document.getElementById("part2Test");
 const part1Challenge = document.getElementById("part1Challenge");
 const part2Challenge = document.getElementById("part2Challenge");
 
-// Test to confirm output
-part1Test.textContent = checkLuggage(testArray);
+//Test to confirm output
+part1Test.textContent = checkLuggage(testArray, "shiny_gold");
+bagsChecked = [];
 // part2Test.textContent = checkQuestionairre2(testArray);
 
 // // Run challenge data and get output
-part1Challenge.textContent = checkLuggage(challengeArray);
+part1Challenge.textContent = checkLuggage(challengeArray, "shiny_gold");
 // part2Challenge.textContent = checkQuestionairre2(challengeArray);
