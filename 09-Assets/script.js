@@ -24,10 +24,9 @@ function xmasCipher2(sequence, sum) {
 
   // Go through sequence of numbers
   for (let i = 0; i < sequence.length; i++) {
-    let sumIndex = i;
     // Find a series of contiguous numbers that add up to the number from the previous step
-    while (sumIndex < sequence.length) {
-      checkNumbers.push(sequence[sumIndex]);
+    for (let j = i; j < sequence.length; j++) {
+      checkNumbers.push(sequence[j]);
       // Sum the numbers
       const sumCheck = checkNumbers.reduce((accumulator, currentValue) => accumulator + currentValue);
 
@@ -42,7 +41,6 @@ function xmasCipher2(sequence, sum) {
       else if (sumCheck > sum) {
         break;
       }
-      sumIndex++;
     }
     checkNumbers = [];
   }
