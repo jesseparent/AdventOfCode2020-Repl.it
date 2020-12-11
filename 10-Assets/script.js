@@ -19,18 +19,24 @@ function joltageTest(sequence) {
 
 // Part 2 - 
 function joltageCombos(sequence) {
-  sequence.sort((a, b) => a - b);
+  sequence.sort((a, b) => b - a);
   let droppableJoltages = [];
-  // sequence.push(sequence[sequence.length - 1] + 3);
-  sequence.unshift(0);
-  for (let i = 1; i < sequence.length - 1; i++) {
-    let stepAround = (sequence[i] - sequence[i - 1]) + (sequence[i + 1] - sequence[i]);
-    if (stepAround <= 3) {
-      droppableJoltages.push(sequence[i]);
+  sequence.push(0);
+  console.log(sequence)
+  for (let i = 0; i < sequence.length; i++) {
+    let stepBack = sequence[i] - 3;
+    if (sequence.includes(stepBack)) {
+      if ((sequence.includes(stepBack + 1)) && (!droppableJoltages.includes(stepBack + 1))) {
+        droppableJoltages.push(stepBack + 1);
+      }
+      if ((sequence.includes(stepBack + 2)) && (!droppableJoltages.includes(stepBack + 2))) {
+        droppableJoltages.push(stepBack + 2);
+      }
     }
+
   }
 
-  //console.log(droppableJoltages);
+  console.log(droppableJoltages.sort((a, b) => b - a));
   // var result = [[]];
   // for (let i = 0; i < droppableJoltages.length; i++) {
   //   let subArray = [droppableJoltages[i]];
@@ -130,4 +136,4 @@ part2Test.textContent = joltageCombos(testArray);
 
 // // Run challenge data and get output
 part1Challenge.textContent = joltageTest(challengeArray);
-part2Challenge.textContent = joltageCombos(challengeArray);
+// part2Challenge.textContent = joltageCombos(challengeArray);
