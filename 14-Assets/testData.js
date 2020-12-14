@@ -1,0 +1,3 @@
+const testArray = [];
+
+const challengeArray = [];
